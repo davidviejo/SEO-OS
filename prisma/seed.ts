@@ -417,15 +417,14 @@ async function main() {
   console.log(`Start seeding ...`)
 
   // Optional: Clear existing templates to avoid duplicates if running multiple times
-  // await prisma.taskTemplate.deleteMany({})
+  await prisma.taskTemplate.deleteMany({})
 
-  for (const task of tasks) {
-    const createdTask = await prisma.taskTemplate.create({
-      data: task,
-    })
-    console.log(`Created task with id: ${createdTask.id}`)
-  }
-  console.log(`Seeding finished.`)
+  const result = await prisma.taskTemplate.createMany({
+    data: tasks,
+    skipDuplicates: true, // Optional: in case the script is run multiple times
+  })
+
+  console.log(`Seeding finished. Created ${result.count} task templates.`)
 }
 
 main()
