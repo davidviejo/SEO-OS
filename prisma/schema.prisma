@@ -23,15 +23,19 @@ model TaskTemplate {
   default_priority      Int
   applicable_strategies StrategyType[]
   email_script          String        @db.Text
+  project_tasks         ProjectTask[]
 }
 
 model ProjectTask {
-  id               String      @id @default(uuid())
+  id               String        @id @default(uuid())
+  title            String
   project_id       String
-  project          Project     @relation(fields: [project_id], references: [id])
-  status           TaskStatus  @default(TODO)
+  project          Project       @relation(fields: [project_id], references: [id])
+  task_template_id String?
+  task_template    TaskTemplate? @relation(fields: [task_template_id], references: [id])
+  status           TaskStatus    @default(TODO)
   current_priority Int
-  notes            String?     @db.Text
+  notes            String?       @db.Text
 }
 
 enum StrategyType {
