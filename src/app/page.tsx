@@ -1,4 +1,4 @@
-// import prisma from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import {
   Table,
   TableBody,
@@ -32,14 +32,10 @@ const MOCK_PROJECTS: Project[] = [
 
 async function getProjects() {
   try {
-    // Attempt to fetch from DB
-    // return await prisma.project.findMany();
-    // Since we know migration failed, we return mock data or empty array to avoid crash
-    // In a real scenario, we would use the DB call.
-    // return await prisma.project.findMany();
-    return MOCK_PROJECTS;
+    const projects = await prisma.project.findMany();
+    return projects;
   } catch (error) {
-    console.error("Failed to fetch projects (expected if no DB):", error);
+    console.error("Failed to fetch projects (using mock data):", error);
     return MOCK_PROJECTS;
   }
 }
