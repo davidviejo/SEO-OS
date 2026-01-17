@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Project {
+  id            String        @id @default(uuid())
+  nombre        String
+  dominio       String
+  strategyType  StrategyType
+  fecha_creacion DateTime      @default(now())
+  tasks         ProjectTask[]
+}
+
+model TaskTemplate {
+  id                    String        @id @default(uuid())
+  title                 String
+  description           String // Text type in Prisma is String, but can be explicit for DB if needed, usually String is fine or @db.Text
+  phase                 String
+  default_priority      Int
+  applicable_strategies StrategyType[]
+  email_script          String        @db.Text
+}
+
+model ProjectTask {
+  id               String      @id @default(uuid())
+  project_id       String
+  project          Project     @relation(fields: [project_id], references: [id])
+  status           TaskStatus  @default(TODO)
+  current_priority Int
+  notes            String?     @db.Text
+}
+
+enum StrategyType {
+  LOCAL
+  ECOM
+  MEDIA
+  B2B
+}
+
+enum TaskStatus {
+  TODO
+  IN_PROGRESS
+  VALIDATION
+  DONE
+}
