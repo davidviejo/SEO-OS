@@ -7,22 +7,24 @@ datasource db {
 }
 
 model Project {
-  id            String        @id @default(uuid())
-  nombre        String
-  dominio       String
-  strategyType  StrategyType
+  id             String        @id @default(uuid())
+  nombre         String
+  dominio        String
+  strategyType   StrategyType
   fecha_creacion DateTime      @default(now())
-  tasks         ProjectTask[]
+  tasks          ProjectTask[]
+
+  @@index([dominio])
 }
 
 model TaskTemplate {
-  id                    String        @id @default(uuid())
+  id                    String         @id @default(uuid())
   title                 String
   description           String // Text type in Prisma is String, but can be explicit for DB if needed, usually String is fine or @db.Text
   phase                 String
   default_priority      Int
   applicable_strategies StrategyType[]
-  email_script          String        @db.Text
+  email_script          String         @db.Text
   project_tasks         ProjectTask[]
 }
 
