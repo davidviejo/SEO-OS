@@ -32,7 +32,10 @@ const MOCK_PROJECTS: Project[] = [
 
 async function getProjects() {
   try {
-    const projects = await prisma.project.findMany();
+    const projects = await prisma.project.findMany({
+      take: 50,
+      orderBy: { fecha_creacion: "desc" },
+    });
     return projects;
   } catch (error) {
     console.error("Failed to fetch projects (using mock data):", error);
