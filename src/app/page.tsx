@@ -85,7 +85,7 @@ export default async function Home() {
                     <Badge variant="outline">{project.strategyType}</Badge>
                   </TableCell>
                   <TableCell>
-                    {new Date(project.fecha_creacion).toLocaleDateString()}
+                    {project.fecha_creacion.toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="sm">
